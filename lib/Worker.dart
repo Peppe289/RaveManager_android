@@ -34,16 +34,17 @@ class Worker {
 
     try {
       ProcessResult result = Process.runSync('su', ['-c', 'pidof', str]);
-      ret = result.stdout.toString().trim();
 
       if (result.exitCode == 0) {
-        return ret;
+        ret = result.stdout.toString().trim();
       } else {
-        return "";
+        ret = "";
       }
     } catch (e) {
       return "";
     }
+
+    return ret;
   }
   
 
