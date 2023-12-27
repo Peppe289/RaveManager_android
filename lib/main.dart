@@ -61,50 +61,59 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'Status: $status',
             ),
-            const Text(
-              'Chose your game to optimze',
-            ),
-            /**
-             * Button for PUBG Mobile.
-             */
-            TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.resolveWith<Color?>(
-                    (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.focused)) return Colors.red;
-                  return null; // Defer to the widget's default.
-                }),
-                backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                    (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.pressed) ||
-                      states.contains(MaterialState.focused)) return null;
-                  return const Color.fromARGB(165, 212, 236, 255);
-                }),
-              ),
-              // this button work only for pubg mobile
-              onPressed: () {
-                int ret = Worker.optimizer(Worker.PUBG_MOBILE);
-                setState(() {
-                  pid = Worker.process_ID;
-                  pkg = Worker.pkg;
-                  if (ret == RootCheck.ROOT_DENIED) {
-                    status = "Root Denied";
-                  } else if (ret == Worker.ERROR) {
-                    if (pid == "") {
-                      status = "Error for package $pkg";
-                    } else {
-                      status = "Error for pid $pid";
-                    }
-                  } else {
-                    status = "Work fine";
-                  }
-                });
-              },
-              child: const Text('PUBG Mobile'),
-            )
+            const Text('Choose your game to optimize'),
+            buildGameButtons(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildGameButtons() {
+    List<String> gameNames = [
+      Worker.PUBG_MOBILE,
+    ];
+
+    return Column(
+      children: gameNames.map((String gameName) {
+        return TextButton(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+                if (states.contains(MaterialState.focused)) return Colors.red;
+                return null; // Defer to the widget's default.
+              },
+            ),
+            backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+                if (states.contains(MaterialState.pressed) ||
+                    states.contains(MaterialState.focused)) return null;
+                return const Color.fromARGB(165, 212, 236, 255);
+              },
+            ),
+          ),
+          onPressed: () {
+            int ret = Worker.optimizer(
+                gameName); // Assuming Worker.optimizer accepts game names
+            setState(() {
+              pid = Worker.process_ID;
+              pkg = Worker.pkg;
+              if (ret == RootCheck.ROOT_DENIED) {
+                status = 'Root Denied';
+              } else if (ret == Worker.ERROR) {
+                if (pid == '') {
+                  status = 'Error for package $pkg';
+                } else {
+                  status = 'Error for pid $pid';
+                }
+              } else {
+                status = 'Work fine';
+              }
+            });
+          },
+          child: Text(gameName),
+        );
+      }).toList(),
     );
   }
 }
