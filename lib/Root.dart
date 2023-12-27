@@ -4,6 +4,7 @@ import 'dart:io';
 
 class RootCheck {
 
+  // ignore: constant_identifier_names
   static const int ROOT_DENIED = -10; 
 
   static bool checkRoot() {
