@@ -98,6 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 } else {
                   status = 'Error for pid $pid';
                 }
+              } else if (ret == 1) {
+                status = 'First open the game';
               } else {
                 status = 'Done';
               }
