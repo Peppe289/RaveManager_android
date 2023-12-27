@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Worker.dart';
 import 'Root.dart';
 import 'package:just_toast/just_toast.dart';
+import 'RamManage.dart';
 //import 'dart:io';
 //import 'package:root/root.dart';
 //import 'package:toast/toast.dart';
@@ -41,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String status = '';
   String pid = '';
   String pkg = '';
+  String freeram = '';
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +58,16 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text('Choose your game to optimize'),
             buildGameButtons(),
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          onPressed: () {
+            freeram = RamManage.worker().toString();
+            showToast(context: context, text: 'Cleaned $freeram MB');
+          },
+          child: const Text('Clear RAM'),
         ),
       ),
     );
