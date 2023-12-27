@@ -1,8 +1,12 @@
+// ignore_for_file: file_names
+
 import 'Root.dart';
 import 'dart:io';
+import 'Sched.dart';
 
 class Worker {
-  static const int ERROR = -2;
+  // ignore: constant_identifier_names
+  static const int ERROR = Scheduler.ERROR;
   // ignore: constant_identifier_names
   static const String PUBG_MOBILE_PKG = "com.tencent.ig";
   // ignore: constant_identifier_names
@@ -60,12 +64,16 @@ class Worker {
 
     process_ID = checkRunning(str);
 
-    try {
-      ProcessResult result =
-          Process.runSync('su', ['-c', 'chrt', '-p', process_ID, '-b', '0']);
-      return result.exitCode;
-    } catch (e) {
-      return ERROR;
-    }
+    /**
+     * -o: SCHED_OTHER 0/0
+     * -f: SCHED_FIFO 1/99
+     * -r: SCHED_RR 1/99
+     * -b: SCHED_BATCH 0/0
+     * -i: SCHED_IDLE 0/0
+     * 
+     * TODO:
+     * Deadline isn't present in my machine (I will find for this)
+     */
+    return Scheduler.setScheduler(process_ID, '-b', '0');
   }
 }
