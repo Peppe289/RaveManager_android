@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'Worker.dart';
+import 'Root.dart';
 //import 'dart:io';
 //import 'package:root/root.dart';
 //import 'package:toast/toast.dart';
 //import 'dart:developer';
 //import 'AppLog.dart';
 
+String status = '';
+
 void main() {
+  if (RootCheck.checkRoot()) {
+    status = "Work fine";
+  } else {
+    status = "Root Denied";
+  }
   runApp(const MyApp());
 }
 
@@ -36,8 +44,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // ignore: non_constant_identifier_names
-  String exitCode_res = '0';
   String pid = '';
   String pkg = '';
 
@@ -53,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Exit status: $exitCode_res for pid $pid with pkg $pkg',
+              'Status: $status',
             ),
             const Text(
               'Chose your game to optimze',
@@ -79,9 +85,19 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 int ret = Worker.optimizer(Worker.PUBG_MOBILE);
                 setState(() {
-                  exitCode_res = ret.toString();
                   pid = Worker.process_ID;
                   pkg = Worker.pkg;
+                  if (ret == RootCheck.ROOT_DENIED) {
+                    status = "Root Denied";
+                  } else if (ret == Worker.ERROR) {
+                    if (pid == "") {
+                      status = "Error for package $pkg";
+                    } else {
+                      status = "Error for pid $pid";
+                    }
+                  } else {
+                    status = "Work fine";
+                  }
                 });
               },
               child: const Text('PUBG Mobile'),

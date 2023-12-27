@@ -2,6 +2,7 @@ import 'Root.dart';
 import 'dart:io';
 
 class Worker {
+  static const int ERROR = -2;
   // ignore: constant_identifier_names
   static const String PUBG_MOBILE_PKG = "com.tencent.ig";
   // ignore: constant_identifier_names
@@ -54,7 +55,7 @@ class Worker {
 
   static int optimizer(String str) {
     if (validatePermission() == false) {
-      return -2;
+      return RootCheck.ROOT_DENIED;
     }
 
     process_ID = checkRunning(str);
@@ -64,7 +65,7 @@ class Worker {
           Process.runSync('su', ['-c', 'chrt', '-p', process_ID, '-b', '0']);
       return result.exitCode;
     } catch (e) {
-      return -2;
+      return ERROR;
     }
   }
 }
