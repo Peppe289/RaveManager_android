@@ -20,10 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Rave Tweaker',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: ThemeData(scaffoldBackgroundColor: Colors.black),
       home: const MyHomePage(title: 'Tweaker'),
     );
   }
@@ -48,14 +45,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        backgroundColor: Colors.black,
+        title: Text(widget.title,
+            style: const TextStyle(color: Color.fromARGB(255, 215, 215, 215))),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Choose your game to optimize'),
+            const Text('Choose your game to optimize', style: TextStyle(color: Color.fromARGB(255, 215, 215, 215))),
             buildGameButtons(),
           ],
         ),
@@ -82,17 +80,11 @@ class _MyHomePageState extends State<MyHomePage> {
       children: gameNames.map((String gameName) {
         return TextButton(
           style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.resolveWith<Color?>(
-              (Set<MaterialState> states) {
-                if (states.contains(MaterialState.focused)) return Colors.red;
-                return null; // Defer to the widget's default.
-              },
-            ),
             backgroundColor: MaterialStateProperty.resolveWith<Color?>(
               (Set<MaterialState> states) {
                 if (states.contains(MaterialState.pressed) ||
-                    states.contains(MaterialState.focused)) return null;
-                return const Color.fromARGB(165, 212, 236, 255);
+                    states.contains(MaterialState.focused)) return const Color.fromARGB(255, 85, 130, 255);
+                return const Color.fromARGB(255, 255, 255, 255);
               },
             ),
           ),
@@ -118,7 +110,8 @@ class _MyHomePageState extends State<MyHomePage> {
             });
             showToast(context: context, text: status);
           },
-          child: Text(gameName),
+          child: Text(gameName,
+              style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
         );
       }).toList(),
     );
