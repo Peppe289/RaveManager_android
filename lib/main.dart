@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 import 'Worker.dart';
 import 'Root.dart';
+import 'package:just_toast/just_toast.dart';
 //import 'dart:io';
 //import 'package:root/root.dart';
 //import 'package:toast/toast.dart';
 //import 'dart:developer';
 //import 'AppLog.dart';
 
-String status = '';
-
 void main() {
-  if (RootCheck.checkRoot()) {
-    status = "Work fine";
-  } else {
-    status = "Root Denied";
-  }
   runApp(const MyApp());
 }
 
@@ -44,6 +38,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String status = '';
   String pid = '';
   String pkg = '';
 
@@ -58,9 +53,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Status: $status',
-            ),
             const Text('Choose your game to optimize'),
             buildGameButtons(),
           ],
@@ -107,9 +99,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   status = 'Error for pid $pid';
                 }
               } else {
-                status = 'Work fine';
+                status = 'Done';
               }
             });
+            showToast(context: context, text: status);
           },
           child: Text(gameName),
         );

@@ -80,6 +80,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  just_toast:
+    dependency: "direct main"
+    description:
+      name: just_toast
+      sha256: "1c14dd73aa77c6c0767490c0d3b1dcba6d36edcc72b2a54cf775592071e14ddf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   lints:
     dependency: transitive
     description:
