@@ -4,11 +4,6 @@ import 'Root.dart';
 import 'package:just_toast/just_toast.dart';
 import 'RamManage.dart';
 import 'drawer.dart';
-//import 'dart:io';
-//import 'package:root/root.dart';
-//import 'package:toast/toast.dart';
-//import 'dart:developer';
-//import 'AppLog.dart';
 
 void main() {
   runApp(const MyApp());
@@ -65,7 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Choose your game to optimize', style: TextStyle(color: Color.fromARGB(255, 215, 215, 215))),
+            const Text('Choose your game to optimize',
+                style: TextStyle(color: Color.fromARGB(255, 215, 215, 215))),
             buildGameButtons(),
           ],
         ),
@@ -96,7 +92,9 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: MaterialStateProperty.resolveWith<Color?>(
               (Set<MaterialState> states) {
                 if (states.contains(MaterialState.pressed) ||
-                    states.contains(MaterialState.focused)) return const Color.fromARGB(255, 85, 130, 255);
+                    states.contains(MaterialState.focused)) {
+                  return const Color.fromARGB(255, 85, 130, 255);
+                }
                 return const Color.fromARGB(255, 255, 255, 255);
               },
             ),
