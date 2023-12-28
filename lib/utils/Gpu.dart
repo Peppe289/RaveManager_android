@@ -38,6 +38,7 @@ class Gpu {
     }
 
     gpu_usage_path = getPath(GPU_USAGE_KEY);
+    isInit = true;
   }
 
   static String usage() {

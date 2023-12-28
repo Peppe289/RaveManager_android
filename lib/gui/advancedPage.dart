@@ -87,12 +87,10 @@ class _FrequencyWidgetState extends State<FrequencyWidget> {
 
   void startTimer() {
     Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      if (mounted) {
-        // Check if the widget is still mounted before updating the state
-        setState(() {
-          gpu_usage = Gpu.usage();
-        });
-      }
+      // Check if the widget is still mounted before updating the state
+      setState(() {
+        gpu_usage = Gpu.usage();
+      });
     });
   }
 
