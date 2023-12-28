@@ -28,6 +28,7 @@ class buildSecondPage extends StatelessWidget {
                 '${(SysInfo.getTotalVirtualMemory() / 1000000).truncate()} MB'),
             buildRow('CPU Vendor:', SysInfo.cores.first.vendor),
             buildRow('Architecture Name:', SysInfo.cores.first.name),
+            buildRow('GPU Model:', Gpu.model()),
             const FrequencyWidget(),
           ],
         ),
