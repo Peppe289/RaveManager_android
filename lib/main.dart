@@ -3,7 +3,7 @@ import 'Worker.dart';
 import 'Root.dart';
 import 'package:just_toast/just_toast.dart';
 import 'RamManage.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'drawer.dart';
 //import 'dart:io';
 //import 'package:root/root.dart';
 //import 'package:toast/toast.dart';
@@ -41,13 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
   String pid = '';
   String pkg = '';
   String freeram = '';
-
-  Future<void> _launchUrl(String str) async {
-    final Uri url = Uri.parse(str);
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,43 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: const Text('Clear RAM'),
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.black,
-                    image: DecorationImage(
-                    image: AssetImage('assets/wallpaper.jpg'),
-                    fit: BoxFit.cover,
-                ),
-              ),
-              child: Text(
-                'By Rave',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: const Text('Donate Me'),
-              onTap: () {
-                _launchUrl("https://www.paypal.me/GSperanza487");
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('My GitHub'),
-              onTap: () {
-                _launchUrl("https://github.com/Peppe289");
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: const MyDrawerWidget(),
     );
   }
 
