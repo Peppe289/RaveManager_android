@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'Worker.dart';
 import 'Root.dart';
 import 'package:just_toast/just_toast.dart';
-//import 'RamManage.dart';
 import 'drawer.dart';
+import 'RamManage.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key? key, required this.title});
 
   final String title;
 
@@ -36,6 +36,19 @@ class _MyHomePageState extends State<MyHomePage> {
   String pid = '';
   String pkg = '';
   String freeram = '';
+
+  late int _currentPage;
+  late List<Widget> _pages;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentPage = 0;
+    _pages = [
+      buildHomePage(),
+      buildSecondPage(context),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +69,31 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
+      body: _pages[_currentPage],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentPage,
+        onTap: (int index) {
+          setState(() {
+            _currentPage = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Second Page',
+          ),
+        ],
+      ),
+      drawer: const MyDrawerWidget(),
+    );
+  }
+
+  Widget buildHomePage() {
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -65,6 +103,15 @@ class _MyHomePageState extends State<MyHomePage> {
             buildGameButtons(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget buildSecondPage(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Text('This is the second page',
+            style: TextStyle(color: Colors.white)),
       ),
       //bottomNavigationBar: Padding(
       //  padding: const EdgeInsets.all(8.0),
@@ -76,7 +123,6 @@ class _MyHomePageState extends State<MyHomePage> {
       //    child: const Text('Clear RAM'),
       //  ),
       //),
-      drawer: const MyDrawerWidget(),
     );
   }
 
@@ -100,8 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           onPressed: () {
-            int ret = Worker.optimizer(
-                gameName); // Assuming Worker.optimizer accepts game names
+            int ret = Worker.optimizer(gameName);
             setState(() {
               pid = Worker.process_ID;
               pkg = Worker.pkg;
