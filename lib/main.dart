@@ -108,21 +108,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget buildSecondPage(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    return Scaffold(
+      body: const Center(
         child: Text('This is the second page',
             style: TextStyle(color: Colors.white)),
       ),
-      //bottomNavigationBar: Padding(
-      //  padding: const EdgeInsets.all(8.0),
-      //  child: ElevatedButton(
-      //    onPressed: () {
-      //      freeram = RamManage.worker().toString();
-      //      showToast(context: context, text: 'Cleaned $freeram MB');
-      //    },
-      //    child: const Text('Clear RAM'),
-      //  ),
-      //),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          onPressed: () {
+            freeram = RamManage.worker().toString();
+            showToast(context: context, text: 'Cleaned $freeram MB');
+          },
+          child: const Text('Clear RAM'),
+        ),
+      ),
     );
   }
 
