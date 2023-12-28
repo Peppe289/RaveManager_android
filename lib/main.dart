@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'Worker.dart';
 import 'Root.dart';
 import 'package:just_toast/just_toast.dart';
-import 'RamManage.dart';
+//import 'RamManage.dart';
 import 'drawer.dart';
 
 void main() {
@@ -66,16 +66,16 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ElevatedButton(
-          onPressed: () {
-            freeram = RamManage.worker().toString();
-            showToast(context: context, text: 'Cleaned $freeram MB');
-          },
-          child: const Text('Clear RAM'),
-        ),
-      ),
+      //bottomNavigationBar: Padding(
+      //  padding: const EdgeInsets.all(8.0),
+      //  child: ElevatedButton(
+      //    onPressed: () {
+      //      freeram = RamManage.worker().toString();
+      //      showToast(context: context, text: 'Cleaned $freeram MB');
+      //    },
+      //    child: const Text('Clear RAM'),
+      //  ),
+      //),
       drawer: const MyDrawerWidget(),
     );
   }
