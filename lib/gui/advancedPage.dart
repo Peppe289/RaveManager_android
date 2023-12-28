@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'RamManage.dart';
+import '../utils/RamManage.dart';
 import 'package:just_toast/just_toast.dart';
 
 // ignore: camel_case_types

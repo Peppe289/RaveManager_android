@@ -1,8 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'Worker.dart';
-import 'Root.dart';
+import '../utils/Worker.dart';
+import '../utils/Root.dart';
 import 'package:just_toast/just_toast.dart';
 
 // ignore: camel_case_types
