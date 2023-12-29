@@ -33,6 +33,7 @@ class buildHomePage extends StatelessWidget {
     List<String> gameNames = [
       Worker.PUBG_MOBILE,
       Worker.BGMI_INDIA,
+      Worker.PUBG_MOBILE_LITE,
     ];
 
     return Column(
