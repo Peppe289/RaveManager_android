@@ -32,6 +32,7 @@ class buildHomePage extends StatelessWidget {
   Widget buildGameButtons(BuildContext context) {
     List<String> gameNames = [
       Worker.PUBG_MOBILE,
+      Worker.BGMI_INDIA,
     ];
 
     return Column(

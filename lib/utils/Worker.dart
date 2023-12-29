@@ -10,7 +10,11 @@ class Worker {
   // ignore: constant_identifier_names
   static const String PUBG_MOBILE_PKG = "com.tencent.ig";
   // ignore: constant_identifier_names
+  static const String BGMI_INDIA_PKG = "com.pubg.imobile";
+  // ignore: constant_identifier_names
   static const String PUBG_MOBILE = "PUBG Mobile";
+  // ignore: constant_identifier_names
+  static const String BGMI_INDIA = "BGMI India";
   // ignore: non_constant_identifier_names
   static String process_ID = '';
   static String pkg = '';
@@ -21,6 +25,9 @@ class Worker {
     switch (str) {
       case PUBG_MOBILE:
         result = PUBG_MOBILE_PKG;
+        break;
+      case BGMI_INDIA:
+        result = BGMI_INDIA_PKG;
         break;
       default:
         result = Null as String;
