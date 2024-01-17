@@ -20,7 +20,8 @@ class buildSecondPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            buildRow('Kernel Version:', SysInfo.kernelVersion),
+            // remove kernel version for now
+            //buildRow('Kernel Version:', SysInfo.kernelVersion),
             buildRow('Architecture:', SysInfo.kernelArchitecture.toString()),
             buildRow('Physical Memory Size:',
                 '${(SysInfo.getTotalPhysicalMemory() / 1000000).truncate()} MB'),
