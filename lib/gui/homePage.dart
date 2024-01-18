@@ -7,6 +7,8 @@ import 'dart:async';
 //import 'package:just_toast/just_toast.dart';
 import '../utils/ProcessList.dart';
 
+import 'package:root/root.dart';
+
 class BuildHomePage extends StatefulWidget {
   const BuildHomePage({super.key});
 
@@ -22,18 +24,30 @@ class _BuildHomePage extends State<BuildHomePage> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(const Duration(seconds: 10), (Timer timer) {
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       updateList();
+    });
+  }
+
+  bool _status = false;
+
+  Future<void> checkRoot() async {
+    bool? result = await Root.isRooted();
+    setState(() {
+      _status = result!;
     });
   }
 
   void updateList() {
     if (mounted) {
-      setState(() {
-        //.add('newItem');
-        processList.updateList();
-        list = processList.getList();
-      });
+      checkRoot();
+      if (_status) {
+        setState(() {
+          //.add('newItem');
+          processList.updateList();
+          list = processList.getList();
+        });
+      }
     }
   }
 

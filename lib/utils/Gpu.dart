@@ -1,7 +1,8 @@
 // ignore_for_file: file_names
 
-import 'dart:io';
-import 'Root.dart';
+//import 'dart:io';
+import 'isRoot.dart';
+import 'package:root/root.dart';
 
 class Gpu {
   // ignore: constant_identifier_names
@@ -12,68 +13,88 @@ class Gpu {
   static String gpu_usage_path = '';
   // ignore: non_constant_identifier_names
   static String gpu_model_path = '';
+  // ignore: non_constant_identifier_names
+  static String gpu_model = '';
+  // ignore: non_constant_identifier_names
+  static String gpu_usage = '';
   static bool isInit = false;
 
-  static String getPath(String find) {
-    if (RootCheck.checkRoot() == false) {
-      return '';
+  static Future<void> getPath(String find) async {
+    RootCheck isRoot = RootCheck();
+    String? result;
+
+    if (isRoot.checkRoot() == false) {
+      gpu_model_path = '';
     }
 
     try {
-      ProcessResult result =
-          Process.runSync('su', ['-c', 'find /sys -name $find']);
-      if (result.exitCode == 0) {
-        return result.stdout.toString().trim();
-      }
+      result = await Root.exec(cmd: 'find /sys -name $find 2> /dev/null');
     } catch (e) {
-      return 'error';
+      result = 'error';
     }
 
-    return 'error';
+    switch (find) {
+      case GPU_MODEL_KEY:
+        // can be have than more 1 node. I need just one node
+        gpu_model_path = result.toString().trim().split('\n').first;
+        break;
+      case GPU_USAGE_KEY:
+        gpu_usage_path = result.toString().trim();
+        break;
+      default:
+        return;
+    }
   }
 
   static void init() {
     if (isInit == true) {
       return;
     }
-
-    gpu_usage_path = getPath(GPU_USAGE_KEY);
+    getPath(GPU_USAGE_KEY);
+    getPath(GPU_MODEL_KEY);
     isInit = true;
   }
 
-  static String usage() {
-    if (isInit == false) {
-      init();
+  static Future<void> _usage() async {
+    init();
+
+    if (gpu_usage_path.isEmpty) {
+      gpu_usage = "Error";
+      return;
     }
 
     try {
-      ProcessResult result =
-          Process.runSync('su', ['-c', 'cat $gpu_usage_path']);
+      String? result = await Root.exec(cmd: 'cat $gpu_usage_path');
 
-      if (result.exitCode == 0) {
-        return result.stdout.toString().trim();
-      }
+      gpu_usage = result.toString().trim();
     } catch (e) {
-      return 'Error';
+      gpu_usage = 'Error';
+    }
+  }
+
+  static String usage() {
+    _usage();
+    return gpu_usage;
+  }
+
+  static Future<void> _model() async {
+    if (gpu_model_path.isEmpty) {
+      gpu_model = 'Error';
+      return;
     }
 
-    return 'Error';
+    try {
+      String? result = await Root.exec(cmd: 'cat $gpu_model_path');
+      gpu_model = result.toString().trim();
+    } catch (e) {
+      gpu_model = 'Error';
+    }
   }
 
   static String model() {
-    // can be have than more 1 node. I need just one node
-    gpu_model_path = getPath(GPU_MODEL_KEY).split('\n').first;
-
-    try {
-      ProcessResult result =
-          Process.runSync('su', ['-c', 'cat $gpu_model_path']);
-      if (result.exitCode == 0) {
-        return result.stdout.toString().trim();
-      }
-    } catch (e) {
-      return 'Error';
+    if (gpu_model.compareTo('') == 0) {
+      _model();
     }
-
-    return 'Error';
+    return gpu_model;
   }
 }
