@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _currentPage = 0;
     _pages = [
-      const buildHomePage(),
+      const BuildHomePage(),
       const buildSecondPage(),
     ];
   }
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.admin_panel_settings),
             label: 'Advanced',
           ),
         ],

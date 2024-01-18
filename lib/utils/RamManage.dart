@@ -11,7 +11,7 @@ class RamManage {
   static bool clearRam() {
     try {
       ProcessResult result =
-          Process.runSync('su', ['-c', 'echo', '3', '>', PATH_CACHE]);
+          Process.runSync('su', ['-c', 'echo 3 > $PATH_CACHE']);
       return result.exitCode == 0;
     } catch (e) {
       return false;

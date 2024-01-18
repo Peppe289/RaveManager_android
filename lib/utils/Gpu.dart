@@ -21,7 +21,7 @@ class Gpu {
 
     try {
       ProcessResult result =
-          Process.runSync('su', ['-c', 'find', '/sys', '-name', find]);
+          Process.runSync('su', ['-c', 'find /sys -name $find']);
       if (result.exitCode == 0) {
         return result.stdout.toString().trim();
       }
@@ -48,7 +48,7 @@ class Gpu {
 
     try {
       ProcessResult result =
-          Process.runSync('su', ['-c', 'cat', gpu_usage_path]);
+          Process.runSync('su', ['-c', 'cat $gpu_usage_path']);
 
       if (result.exitCode == 0) {
         return result.stdout.toString().trim();
@@ -66,7 +66,7 @@ class Gpu {
 
     try {
       ProcessResult result =
-          Process.runSync('su', ['-c', 'cat', gpu_model_path]);
+          Process.runSync('su', ['-c', 'cat $gpu_model_path']);
       if (result.exitCode == 0) {
         return result.stdout.toString().trim();
       }
