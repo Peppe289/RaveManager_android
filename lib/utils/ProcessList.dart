@@ -2,6 +2,7 @@
 
 //import 'dart:io';
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:root/root.dart';
 
 class ProcessList {
@@ -55,7 +56,10 @@ class LoadProcessList {
         int virt = 0;
         int res = 0;
 
-        full.add(ProcessList(split[1], pid, virt, res));
+        final lib = DynamicLibrary.open("librave.so");
+        final uselib = lib.lookupFunction<Int32 Function(), int Function()>("someData");
+
+        full.add(ProcessList(split[1], uselib(), virt, res));
       }
     
 
