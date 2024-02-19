@@ -9,15 +9,15 @@ import '../utils/ProcessList.dart';
 
 import 'package:root/root.dart';
 
-class BuildHomePage extends StatefulWidget {
-  const BuildHomePage({super.key});
+class ProcessPage extends StatefulWidget {
+  const ProcessPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _BuildHomePage createState() => _BuildHomePage();
+  _ProcessPage createState() => _ProcessPage();
 }
 
-class _BuildHomePage extends State<BuildHomePage> {
+class _ProcessPage extends State<ProcessPage> {
   LoadProcessList processList = LoadProcessList();
   late List<ProcessList> list;
 

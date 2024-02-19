@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'gui/drawer.dart';
-import 'gui/homePage.dart';
-import 'gui/advancedPage.dart';
+import 'gui/SideDrawer.dart';
+import 'gui/ProcessPage.dart';
+import 'gui/AdvancedPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _currentPage = 0;
     _pages = [
-      const BuildHomePage(),
+      const ProcessPage(),
       const buildSecondPage(),
     ];
   }
@@ -72,8 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.adjust),
+            label: 'Process',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.admin_panel_settings),
