@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'gui/SideDrawer.dart';
 import 'gui/ProcessPage.dart';
 import 'gui/AdvancedPage.dart';
+import 'gui/HomePage.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _currentPage = 0;
     _pages = [
+      const buildHomePage(),
       const ProcessPage(),
       const buildSecondPage(),
     ];
@@ -63,21 +66,30 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: _pages[_currentPage],
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: SalomonBottomBar(
         currentIndex: _currentPage,
+        selectedItemColor: const Color(0xff6200ee),
+        unselectedItemColor: const Color(0xff757575),
         onTap: (int index) {
           setState(() {
             _currentPage = index;
           });
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.adjust),
-            label: 'Process',
+        items: [
+          SalomonBottomBarItem(
+            icon: const Icon(Icons.home),
+            title: const Text('Home'),
+            selectedColor: Colors.orange,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.admin_panel_settings),
-            label: 'Advanced',
+          SalomonBottomBarItem(
+            icon: const Icon(Icons.adjust),
+            title: const Text('Process'),
+            selectedColor: Colors.orange,
+          ),
+          SalomonBottomBarItem(
+            icon: const Icon(Icons.admin_panel_settings),
+            title: const Text('Advanced'),
+            selectedColor: Colors.orange,
           ),
         ],
       ),
