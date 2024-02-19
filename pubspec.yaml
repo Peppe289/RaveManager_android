@@ -42,6 +42,7 @@ dependencies:
   system_info2: ^4.0.0
   ffi: ^2.1.0
   salomon_bottom_bar: ^3.3.2
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:

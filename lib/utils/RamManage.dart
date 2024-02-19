@@ -37,4 +37,13 @@ class RamManage {
 
     return calc.round();
   }
+
+  static int used_memory_percent() {
+    int used_memory = SysInfo.getTotalPhysicalMemory() - SysInfo.getFreePhysicalMemory();
+    int ret;
+
+    ret =  ((used_memory * 100) ~/ SysInfo.getTotalPhysicalMemory());
+
+    return ret;
+  }
 }
