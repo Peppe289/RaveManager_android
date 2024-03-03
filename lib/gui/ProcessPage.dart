@@ -106,7 +106,7 @@ class _ProcessPage extends State<ProcessPage> {
     );
   }
 
-  Widget buildRow(String name, int pid, int virt, int res) {
+  Widget buildRow(String name, int pid, double virt, double res) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
       child: Row(
@@ -139,7 +139,7 @@ class _ProcessPage extends State<ProcessPage> {
               child: Container(
                 color: Colors.black26,
                 child: Text(
-                  virt.toString(),
+                  virt.toStringAsFixed(2),
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
@@ -151,7 +151,7 @@ class _ProcessPage extends State<ProcessPage> {
               child: Container(
                 color: Colors.black26,
                 child: Text(
-                  res.toString(),
+                  res.toStringAsFixed(2),
                   style: const TextStyle(color: Colors.white),
                 ),
               ),

@@ -53,8 +53,9 @@ class LoadProcessList {
     Pointer<TaskSimplyStruct> resultPtr = taskList(sizePtr);
 
     for (int i = 0; i < sizePtr[0]; ++i) {
-      int virt = resultPtr[i].vm.toUnsigned(64);
-      int rss = resultPtr[i].rssMemory.toUnsigned(64);
+      double virt = (resultPtr[i].vm.toUnsigned(64) / (1024 * 1024 * 1024));
+      double rss =
+          (resultPtr[i].rssMemory.toUnsigned(64) / (1024 * 1024 * 1024));
 
       // thread not have memory usage
       if (showThread == false && virt == 0 && rss == 0) continue;
@@ -80,8 +81,8 @@ class LoadProcessList {
 class ProcessList {
   late String name;
   late int pid;
-  late int virt;
-  late int res;
+  late double virt;
+  late double res;
 
   ProcessList(this.name, this.pid, this.virt, this.res);
 
@@ -93,11 +94,11 @@ class ProcessList {
     return pid;
   }
 
-  int getVirt() {
+  double getVirt() {
     return virt;
   }
 
-  int getRes() {
+  double getRes() {
     return res;
   }
 }
