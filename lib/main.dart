@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _currentPage = 0;
     _pages = [
-      const buildHomePage(),
+      const BuildHomePage(),
       const ProcessPage(),
       const buildSecondPage(),
     ];

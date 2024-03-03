@@ -1,19 +1,21 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:tweaker/utils/RamManage.dart';
 import 'dart:async';
 
-class buildHomePage extends StatefulWidget {
-  const buildHomePage({super.key});
+class BuildHomePage extends StatefulWidget {
+  const BuildHomePage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _buildHomePage createState() => _buildHomePage();
+  _BuildHomePage createState() => _BuildHomePage();
 }
 
 // ignore: camel_case_types
-class _buildHomePage extends State<buildHomePage> {
+class _BuildHomePage extends State<BuildHomePage> {
   bool btn1 = false;
 
   static const Color activeColor = Color.fromARGB(255, 52, 199, 89);
@@ -24,14 +26,14 @@ class _buildHomePage extends State<buildHomePage> {
     startTimer();
   }
 
-  int ram_usage = 0;
+  int ramUsage = 0;
 
   void startTimer() {
     Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       // Check if the widget is still mounted before updating the state
       if (mounted) {
         setState(() {
-          ram_usage = RamManage.used_memory_percent();
+          ramUsage = RamManage.usedMemoryPercent();
         });
       }
     });
@@ -75,8 +77,8 @@ class _buildHomePage extends State<buildHomePage> {
                       animation: true,
                       lineHeight: 20.0,
                       animationDuration: 200,
-                      percent: (ram_usage / 100),
-                      center: Text("$ram_usage%"),
+                      percent: (ramUsage / 100),
+                      center: Text("$ramUsage%"),
                       // ignore: deprecated_member_use
                       linearStrokeCap: LinearStrokeCap.roundAll,
                       progressColor: const Color.fromARGB(255, 105, 208, 240),

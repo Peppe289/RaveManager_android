@@ -12,7 +12,7 @@ class RamManage {
       // ignore: unused_local_variable
       ProcessResult result =
           Process.runSync('su', ['-c', 'echo 3 > $PATH_CACHE']);
-    // ignore: empty_catches
+      // ignore: empty_catches
     } catch (e) {}
   }
 
@@ -38,11 +38,12 @@ class RamManage {
     return calc.round();
   }
 
-  static int used_memory_percent() {
-    int used_memory = SysInfo.getTotalPhysicalMemory() - SysInfo.getFreePhysicalMemory();
+  static int usedMemoryPercent() {
+    int usedMemory =
+        SysInfo.getTotalPhysicalMemory() - SysInfo.getFreePhysicalMemory();
     int ret;
 
-    ret =  ((used_memory * 100) ~/ SysInfo.getTotalPhysicalMemory());
+    ret = ((usedMemory * 100) ~/ SysInfo.getTotalPhysicalMemory());
 
     return ret;
   }
