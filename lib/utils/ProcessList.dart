@@ -2,18 +2,29 @@
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'package:flutter/material.dart';
 
+/// @pid: process id
+/// @comm: name of process
+/// @rssMemory: resident memory used
+/// @vm: virtual memor
 final class TaskSimplyStruct extends Struct {
   @Int32()
   external int pid;
 
   @Array(16)
   external Array<Uint8> comm;
+
+  @Int64()
+  external int rssMemory;
+
+  @Int64()
+  external int vm;
 }
 
 class LoadProcessList {
   late List<int> pid;
-  // List of all process (take from PCB) 
+  // List of all process (take from PCB)
   late List<ProcessList> full = [];
 
   // ignore: non_constant_identifier_names
@@ -41,11 +52,11 @@ class LoadProcessList {
     Pointer<TaskSimplyStruct> resultPtr = taskList(sizePtr);
 
     for (int i = 0; i < sizePtr[0]; ++i) {
-      int virt = 0;
-      int res = 0;
+      int virt = resultPtr[i].vm.toUnsigned(64);
+      int rss = resultPtr[i].rssMemory.toUnsigned(64);
 
       full.add(ProcessList(utf8.decode(convert_Uint8_to_int(resultPtr[i].comm)),
-          resultPtr[i].pid, virt, res));
+          resultPtr[i].pid, virt, rss));
     }
 
     calloc.free(sizePtr);
