@@ -53,9 +53,10 @@ class LoadProcessList {
     Pointer<TaskSimplyStruct> resultPtr = taskList(sizePtr);
 
     for (int i = 0; i < sizePtr[0]; ++i) {
-      double virt = (resultPtr[i].vm.toUnsigned(64) / (1024 * 1024 * 1024));
+      // TODO: need revision disable memory usage show for now
+      double virt = (resultPtr[i].vm.toUnsigned(64) / (8 * 1024 * 1024 * 4096));
       double rss =
-          (resultPtr[i].rssMemory.toUnsigned(64) / (1024 * 1024 * 1024));
+          (resultPtr[i].rssMemory.toUnsigned(64) / (8 * 1024 * 1024 * 4096));
 
       // thread not have memory usage
       if (showThread == false && virt == 0 && rss == 0) continue;
@@ -63,6 +64,9 @@ class LoadProcessList {
       full.add(ProcessList(utf8.decode(convert_Uint8_to_int(resultPtr[i].comm)),
           resultPtr[i].pid, virt, rss));
     }
+
+    // sort as lambda expression
+    //full.sort((a, b) => (b.res - a.res).toInt());
 
     calloc.free(sizePtr);
     calloc.free(resultPtr);

@@ -54,7 +54,8 @@ class _ProcessPage extends State<ProcessPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> title = ['Name', 'PID', 'VIRT', 'RES'];
+    // TODO: need revision disable memory usage show for now
+    List<String> title = ['Name', 'PID' /*, 'VIRT', 'RES'*/];
 
     return Scaffold(
       appBar: AppBar(
@@ -80,7 +81,7 @@ class _ProcessPage extends State<ProcessPage> {
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(4, (index) {
+              children: List.generate(title.length, (index) {
                 return Text(title[index],
                     style: const TextStyle(color: Colors.white));
               }),
@@ -133,30 +134,32 @@ class _ProcessPage extends State<ProcessPage> {
               ),
             ),
           ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Center(
-              child: Container(
-                color: Colors.black26,
-                child: Text(
-                  virt.toStringAsFixed(2),
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Center(
-              child: Container(
-                color: Colors.black26,
-                child: Text(
-                  res.toStringAsFixed(2),
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
+          //// TODO: need revision disable memory usage show for now
+          //const SizedBox(width: 10),
+          //Expanded(
+          //  child: Center(
+          //    child: Container(
+          //      color: Colors.black26,
+          //      child: Text(
+          //        virt.toStringAsFixed(2),
+          //        style: const TextStyle(color: Colors.white),
+          //      ),
+          //    ),
+          //  ),
+          //),
+          //// TODO: need revision disable memory usage show for now
+          //const SizedBox(width: 10),
+          //Expanded(
+          //  child: Center(
+          //    child: Container(
+          //      color: Colors.black26,
+          //      child: Text(
+          //        res.toStringAsFixed(2),
+          //        style: const TextStyle(color: Colors.white),
+          //      ),
+          //    ),
+          //  ),
+          //),
         ],
       ),
     );
