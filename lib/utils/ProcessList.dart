@@ -26,6 +26,7 @@ class LoadProcessList {
   late List<int> pid;
   // List of all process (take from PCB)
   late List<ProcessList> full = [];
+  bool showThread = false;
 
   // ignore: non_constant_identifier_names
   List<int> convert_Uint8_to_int(Array<Uint8> data) {
@@ -40,7 +41,7 @@ class LoadProcessList {
     return stInt32;
   }
 
-  void updateList() async {
+  void updateList(bool showThread) async {
     full.clear();
 
     final lib = DynamicLibrary.open("librave.so");
@@ -54,6 +55,9 @@ class LoadProcessList {
     for (int i = 0; i < sizePtr[0]; ++i) {
       int virt = resultPtr[i].vm.toUnsigned(64);
       int rss = resultPtr[i].rssMemory.toUnsigned(64);
+
+      // thread not have memory usage
+      if (showThread == false && virt == 0 && rss == 0) continue;
 
       full.add(ProcessList(utf8.decode(convert_Uint8_to_int(resultPtr[i].comm)),
           resultPtr[i].pid, virt, rss));

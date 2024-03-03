@@ -20,6 +20,7 @@ class ProcessPage extends StatefulWidget {
 class _ProcessPage extends State<ProcessPage> {
   LoadProcessList processList = LoadProcessList();
   late List<ProcessList> list;
+  late String showProcessText = processList.showThread ? 'Thread' : 'Process';
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class _ProcessPage extends State<ProcessPage> {
       if (_status) {
         setState(() {
           //.add('newItem');
-          processList.updateList();
+          processList.updateList(processList.showThread);
           list = processList.getList();
         });
       }
@@ -56,7 +57,24 @@ class _ProcessPage extends State<ProcessPage> {
     List<String> title = ['Name', 'PID', 'VIRT', 'RES'];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Process List')),
+      appBar: AppBar(
+        title: const Text('Process List'),
+        actions: <Widget>[
+          IconButton(
+            icon: Text(showProcessText),
+            onPressed: () {
+              processList.showThread = !processList.showThread;
+              setState(() {
+                if (processList.showThread) {
+                  showProcessText = 'Thread';
+                } else {
+                  showProcessText = 'Process';
+                }
+              });
+            },
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
