@@ -5,15 +5,15 @@ import 'package:ffi/ffi.dart';
 import 'package:flutter/material.dart';
 
 /// @pid: process id
-/// @comm: name of process
+/// @name: name of process
 /// @rssMemory: resident memory used
 /// @vm: virtual memor
 final class TaskSimplyStruct extends Struct {
   @Int32()
   external int pid;
 
-  @Array(16)
-  external Array<Uint8> comm;
+  @Array(255)
+  external Array<Uint8> name;
 
   @Int64()
   external int rssMemory;
@@ -33,8 +33,8 @@ class LoadProcessList {
     Array<Uint8> tmp = data;
     List<int> stInt32 = [];
 
-    // 16 is for comm[16] in the kernel structure about PCB
-    for (int k = 0; k < 16; ++k) {
+    // 16 is for name[255] in the kernel structure about PCB
+    for (int k = 0; k < 255; ++k) {
       stInt32.add(tmp[k]);
     }
 
@@ -61,7 +61,7 @@ class LoadProcessList {
       // thread not have memory usage
       if (showThread == false && virt == 0 && rss == 0) continue;
 
-      full.add(ProcessList(utf8.decode(convert_Uint8_to_int(resultPtr[i].comm)),
+      full.add(ProcessList(utf8.decode(convert_Uint8_to_int(resultPtr[i].name)),
           resultPtr[i].pid, virt, rss));
     }
 
