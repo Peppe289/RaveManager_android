@@ -34,9 +34,11 @@ class _ProcessPage extends State<ProcessPage> {
 
   Future<void> checkRoot() async {
     bool? result = await Root.isRooted();
-    setState(() {
-      _status = result!;
-    });
+    if (mounted) {
+      setState(() {
+        _status = result!;
+      });
+    }
   }
 
   void updateList() {
