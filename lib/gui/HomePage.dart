@@ -46,7 +46,8 @@ class _BuildHomePage extends State<BuildHomePage> {
   }
 
   // default is not possible to know rn
-  Frequency _selectedFrequency = Frequency(-1);
+  Frequency _selectedFrequencyMin = Frequency(-1);
+  Frequency _selectedFrequencyMax = Frequency(-1);
   List<Frequency> list = FrequencyList().AvailableFreq();
 
   @override
@@ -56,46 +57,97 @@ class _BuildHomePage extends State<BuildHomePage> {
         title: const Text('Rave Settings'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Max Freq'),
-                  content: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: list.map((frequency) {
-                        return RadioListTile<Frequency>(
-                          title: Text(frequency.frequency.toString()),
-                          value: frequency,
-                          groupValue: _selectedFrequency,
-                          onChanged: (Frequency? value) {
-                            setState(() {
-                              _selectedFrequency = value!;
-                            });
-                            Navigator.of(context).pop();
-                            showToast(
-                                context: context,
-                                text: "Setted ${_selectedFrequency.frequency}");
-                            final lib = DynamicLibrary.open("librave.so");
-                            final sizePtr = calloc<Int32>(10);
-                            final gpuFreq = lib.lookupFunction<
-                                Int16 Function(Int32, Pointer<Int32>, Int16),
-                                int Function(
-                                    int, Pointer<Int32>, int)>("adreno_freq");
-                            gpuFreq(_selectedFrequency.frequency, sizePtr, 1);
-                          },
-                        );
-                      }).toList(),
-                    ),
-                  ),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('GPU minimum frequency'),
+                      content: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: list.map((frequency) {
+                            return RadioListTile<Frequency>(
+                              title: Text(frequency.frequency.toString()),
+                              value: frequency,
+                              groupValue: _selectedFrequencyMin,
+                              onChanged: (Frequency? value) {
+                                setState(() {
+                                  _selectedFrequencyMin = value!;
+                                });
+                                Navigator.of(context).pop();
+                                showToast(
+                                    context: context,
+                                    text:
+                                        "Setted ${_selectedFrequencyMin.frequency}");
+                                final lib = DynamicLibrary.open("librave.so");
+                                final sizePtr = calloc<Int32>(10);
+                                final gpuFreq = lib.lookupFunction<
+                                    Int16 Function(
+                                        Int32, Pointer<Int32>, Int16),
+                                    int Function(int, Pointer<Int32>,
+                                        int)>("adreno_freq");
+                                gpuFreq(_selectedFrequencyMin.frequency,
+                                    sizePtr, -1);
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
-            );
-          },
-          child: const Text('GPU minimum frequency'),
+              child: const Text('GPU minimum frequency'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('GPU maximum frequency'),
+                      content: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: list.map((frequency) {
+                            return RadioListTile<Frequency>(
+                              title: Text(frequency.frequency.toString()),
+                              value: frequency,
+                              groupValue: _selectedFrequencyMax,
+                              onChanged: (Frequency? value) {
+                                setState(() {
+                                  _selectedFrequencyMax = value!;
+                                });
+                                Navigator.of(context).pop();
+                                showToast(
+                                    context: context,
+                                    text:
+                                        "Setted ${_selectedFrequencyMax.frequency}");
+                                final lib = DynamicLibrary.open("librave.so");
+                                final sizePtr = calloc<Int32>(10);
+                                final gpuFreq = lib.lookupFunction<
+                                    Int16 Function(
+                                        Int32, Pointer<Int32>, Int16),
+                                    int Function(int, Pointer<Int32>,
+                                        int)>("adreno_freq");
+                                gpuFreq(_selectedFrequencyMax.frequency,
+                                    sizePtr, 1);
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: const Text('GPU maximum frequency'),
+            )
+          ],
         ),
       ),
     );
