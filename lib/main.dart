@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'gui/SideDrawer.dart';
-import 'gui/ProcessPage.dart';
 import 'gui/AdvancedPage.dart';
 import 'gui/HomePage.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -41,7 +40,6 @@ class _MyHomePageState extends State<MyHomePage> {
     _currentPage = 0;
     _pages = [
       const BuildHomePage(),
-      const ProcessPage(),
       const buildSecondPage(),
     ];
   }
@@ -79,11 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
           SalomonBottomBarItem(
             icon: const Icon(Icons.home),
             title: const Text('Home'),
-            selectedColor: Colors.orange,
-          ),
-          SalomonBottomBarItem(
-            icon: const Icon(Icons.adjust),
-            title: const Text('Process'),
             selectedColor: Colors.orange,
           ),
           SalomonBottomBarItem(
