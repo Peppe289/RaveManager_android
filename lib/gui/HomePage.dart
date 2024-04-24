@@ -14,7 +14,7 @@ class BuildHomePage extends StatefulWidget {
 }
 
 class Frequency {
-  late int frequency;
+  int frequency;
   Frequency(this.frequency);
 }
 
@@ -36,6 +36,26 @@ class FrequencyList {
 
     return list;
   }
+  /*
+  int currfreq_max() {
+    final lib = DynamicLibrary.open("librave.so");
+    final sizePtr = calloc<Int32>(10);
+    final gpuFreq = lib.lookupFunction<
+        Int32 Function(Int32, Pointer<Int32>, Int16),
+        int Function(int, Pointer<Int32>, int)>("adreno_freq");
+
+    return gpuFreq(0, sizePtr, 1);
+  }
+
+  int currfreq_min() {
+    final lib = DynamicLibrary.open("librave.so");
+    final sizePtr = calloc<Int32>(10);
+    final gpuFreq = lib.lookupFunction<
+        Int32 Function(Int32, Pointer<Int32>, Int16),
+        int Function(int, Pointer<Int32>, int)>("adreno_freq");
+
+    return gpuFreq(0, sizePtr, -1);
+  }*/
 }
 
 // ignore: camel_case_types
