@@ -16,10 +16,16 @@ class BuildHomePage extends StatefulWidget {
 class Frequency {
   int frequency;
   Frequency(this.frequency);
+
+  @override
+  bool operator ==(other) => other is Frequency && other.frequency == frequency;
+
+  @override
+  int get hashCode => frequency;
 }
 
 class FrequencyList {
-  List<Frequency> AvailableFreq() {
+  List<Frequency> availableFreq() {
     List<Frequency> list = [];
 
     final lib = DynamicLibrary.open("librave.so");
@@ -31,44 +37,46 @@ class FrequencyList {
     gpuFreq(0, sizePtr, 0);
 
     for (int i = 0; i != 10 && sizePtr[i] != 0; ++i) {
-      list.add(Frequency(sizePtr[i]));
+      list.add(Frequency((sizePtr[i] / 1000000).round()));
     }
 
     return list;
   }
-  /*
-  int currfreq_max() {
+
+  int currfreqMax() {
     final lib = DynamicLibrary.open("librave.so");
     final sizePtr = calloc<Int32>(10);
     final gpuFreq = lib.lookupFunction<
         Int32 Function(Int32, Pointer<Int32>, Int16),
         int Function(int, Pointer<Int32>, int)>("adreno_freq");
 
-    return gpuFreq(0, sizePtr, 1);
+    return (gpuFreq(0, sizePtr, 1) / 1000000).round();
   }
 
-  int currfreq_min() {
+  int currfreqMin() {
     final lib = DynamicLibrary.open("librave.so");
     final sizePtr = calloc<Int32>(10);
     final gpuFreq = lib.lookupFunction<
         Int32 Function(Int32, Pointer<Int32>, Int16),
         int Function(int, Pointer<Int32>, int)>("adreno_freq");
 
-    return gpuFreq(0, sizePtr, -1);
-  }*/
+    return (gpuFreq(0, sizePtr, -1) / 1000000).round();
+  }
 }
 
 // ignore: camel_case_types
 class _BuildHomePage extends State<BuildHomePage> {
+  late Frequency _selectedFrequencyMin;
+  late Frequency _selectedFrequencyMax;
+  late List<Frequency> list;
+
   @override
   void initState() {
     super.initState();
+    _selectedFrequencyMin = Frequency(FrequencyList().currfreqMin());
+    _selectedFrequencyMax = Frequency(FrequencyList().currfreqMax());
+    list = FrequencyList().availableFreq();
   }
-
-  // default is not possible to know rn
-  Frequency _selectedFrequencyMin = Frequency(-1);
-  Frequency _selectedFrequencyMax = Frequency(-1);
-  List<Frequency> list = FrequencyList().AvailableFreq();
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +99,7 @@ class _BuildHomePage extends State<BuildHomePage> {
                           mainAxisSize: MainAxisSize.min,
                           children: list.map((frequency) {
                             return RadioListTile<Frequency>(
-                              title: Text(frequency.frequency.toString()),
+                              title: Text("${frequency.frequency} Mhz"),
                               value: frequency,
                               groupValue: _selectedFrequencyMin,
                               onChanged: (Frequency? value) {
@@ -110,8 +118,10 @@ class _BuildHomePage extends State<BuildHomePage> {
                                         Int32, Pointer<Int32>, Int16),
                                     int Function(int, Pointer<Int32>,
                                         int)>("adreno_freq");
-                                gpuFreq(_selectedFrequencyMin.frequency,
-                                    sizePtr, -1);
+                                gpuFreq(
+                                    (_selectedFrequencyMin.frequency * 1000000),
+                                    sizePtr,
+                                    -1);
                               },
                             );
                           }).toList(),
@@ -135,7 +145,7 @@ class _BuildHomePage extends State<BuildHomePage> {
                           mainAxisSize: MainAxisSize.min,
                           children: list.map((frequency) {
                             return RadioListTile<Frequency>(
-                              title: Text(frequency.frequency.toString()),
+                              title: Text("${frequency.frequency} Mhz"),
                               value: frequency,
                               groupValue: _selectedFrequencyMax,
                               onChanged: (Frequency? value) {
@@ -154,8 +164,10 @@ class _BuildHomePage extends State<BuildHomePage> {
                                         Int32, Pointer<Int32>, Int16),
                                     int Function(int, Pointer<Int32>,
                                         int)>("adreno_freq");
-                                gpuFreq(_selectedFrequencyMax.frequency,
-                                    sizePtr, 1);
+                                gpuFreq(
+                                    (_selectedFrequencyMax.frequency * 1000000),
+                                    sizePtr,
+                                    1);
                               },
                             );
                           }).toList(),
