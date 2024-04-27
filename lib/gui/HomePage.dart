@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
-import 'package:flutter/material.dart';
 import 'package:just_toast/just_toast.dart';
 
 class BuildHomePage extends StatefulWidget {
@@ -34,12 +32,17 @@ class FrequencyList {
         Int16 Function(Int32, Pointer<Int32>, Int16),
         int Function(int, Pointer<Int32>, int)>("adreno_freq");
 
-    gpuFreq(0, sizePtr, 0);
+    if (gpuFreq(0, sizePtr, 0) < 0) {
+      list.add(Frequency(-1));
+      calloc.free(sizePtr);
+      return list;
+    }
 
     for (int i = 0; i != 10 && sizePtr[i] != 0; ++i) {
       list.add(Frequency((sizePtr[i] / 1000000).round()));
     }
 
+    calloc.free(sizePtr);
     return list;
   }
 
@@ -50,7 +53,9 @@ class FrequencyList {
         Int32 Function(Int32, Pointer<Int32>, Int16),
         int Function(int, Pointer<Int32>, int)>("adreno_freq");
 
-    return (gpuFreq(0, sizePtr, 1) / 1000000).round();
+    int max = (gpuFreq(0, sizePtr, 1) / 1000000).round();
+    calloc.free(sizePtr);
+    return max;
   }
 
   int currfreqMin() {
@@ -60,7 +65,9 @@ class FrequencyList {
         Int32 Function(Int32, Pointer<Int32>, Int16),
         int Function(int, Pointer<Int32>, int)>("adreno_freq");
 
-    return (gpuFreq(0, sizePtr, -1) / 1000000).round();
+    int min = (gpuFreq(0, sizePtr, -1) / 1000000).round();
+    calloc.free(sizePtr);
+    return min;
   }
 }
 
@@ -69,6 +76,7 @@ class _BuildHomePage extends State<BuildHomePage> {
   late Frequency _selectedFrequencyMin;
   late Frequency _selectedFrequencyMax;
   late List<Frequency> list;
+  bool isRave = true;
 
   @override
   void initState() {
@@ -76,10 +84,27 @@ class _BuildHomePage extends State<BuildHomePage> {
     _selectedFrequencyMin = Frequency(FrequencyList().currfreqMin());
     _selectedFrequencyMax = Frequency(FrequencyList().currfreqMax());
     list = FrequencyList().availableFreq();
+    if (list.first.frequency == -1) {
+      isRave = false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (isRave == false) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('PLS Use Rave Kernel'),
+        ),
+        body: const Text(
+          'The patch is not present in this kernel. use the latest version of Rave.',
+          style: TextStyle(
+            color: Color.fromARGB(255, 255, 255, 255),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Rave Settings'),
