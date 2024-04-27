@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 import 'package:just_toast/just_toast.dart';
 import '../utils/gpu_syscall.dart';
 
