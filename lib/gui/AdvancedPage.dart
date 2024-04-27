@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:system_info2/system_info2.dart';
 
-class buildSecondPage extends StatelessWidget {
-  const buildSecondPage({super.key});
+class BuildSecondPage extends StatelessWidget {
+  const BuildSecondPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +11,6 @@ class buildSecondPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // remove kernel version for now
-            //buildRow('Kernel Version:', SysInfo.kernelVersion),
             buildRow('Architecture:', SysInfo.kernelArchitecture.toString()),
             buildRow('Physical Memory Size:',
                 '${(SysInfo.getTotalPhysicalMemory() / 1000000).truncate()} MB'),
