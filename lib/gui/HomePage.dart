@@ -118,6 +118,54 @@ class _BuildHomePage extends State<BuildHomePage> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
+                      title: const Text('GPU maximum frequency'),
+                      content: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: list.map((frequency) {
+                            return RadioListTile<Frequency>(
+                              title: Text("${frequency.frequency} Mhz"),
+                              value: frequency,
+                              groupValue: _selectedFrequencyMax,
+                              onChanged: (Frequency? value) {
+                                setState(() {
+                                  _selectedFrequencyMax = value!;
+                                });
+                                Navigator.of(context).pop();
+                                final lib = DynamicLibrary.open("librave.so");
+                                final sizePtr = calloc<Int32>(10);
+                                final gpuFreq = lib.lookupFunction<
+                                    Int16 Function(
+                                        Int32, Pointer<Int32>, Int16),
+                                    int Function(int, Pointer<Int32>,
+                                        int)>("adreno_freq");
+                                int ret = gpuFreq(
+                                    (_selectedFrequencyMax.frequency * 1000000),
+                                    sizePtr,
+                                    1);
+                                if (ret == 0) {
+                                  showToast(
+                                      context: context,
+                                      text:
+                                          "Done. Max GPU freq to: ${_selectedFrequencyMax.frequency}");
+                                }
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: const Text('GPU maximum frequency'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
                       title: const Text('GPU minimum frequency'),
                       content: SingleChildScrollView(
                         child: Column(
@@ -143,10 +191,16 @@ class _BuildHomePage extends State<BuildHomePage> {
                                         Int32, Pointer<Int32>, Int16),
                                     int Function(int, Pointer<Int32>,
                                         int)>("adreno_freq");
-                                gpuFreq(
+                                int ret = gpuFreq(
                                     (_selectedFrequencyMin.frequency * 1000000),
                                     sizePtr,
                                     -1);
+                                if (ret == 0) {
+                                  showToast(
+                                      context: context,
+                                      text:
+                                          "Done. Min GPU freq to: ${_selectedFrequencyMax.frequency}");
+                                }
                               },
                             );
                           }).toList(),
@@ -157,52 +211,6 @@ class _BuildHomePage extends State<BuildHomePage> {
                 );
               },
               child: const Text('GPU minimum frequency'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('GPU maximum frequency'),
-                      content: SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: list.map((frequency) {
-                            return RadioListTile<Frequency>(
-                              title: Text("${frequency.frequency} Mhz"),
-                              value: frequency,
-                              groupValue: _selectedFrequencyMax,
-                              onChanged: (Frequency? value) {
-                                setState(() {
-                                  _selectedFrequencyMax = value!;
-                                });
-                                Navigator.of(context).pop();
-                                showToast(
-                                    context: context,
-                                    text:
-                                        "Setted ${_selectedFrequencyMax.frequency}");
-                                final lib = DynamicLibrary.open("librave.so");
-                                final sizePtr = calloc<Int32>(10);
-                                final gpuFreq = lib.lookupFunction<
-                                    Int16 Function(
-                                        Int32, Pointer<Int32>, Int16),
-                                    int Function(int, Pointer<Int32>,
-                                        int)>("adreno_freq");
-                                gpuFreq(
-                                    (_selectedFrequencyMax.frequency * 1000000),
-                                    sizePtr,
-                                    1);
-                              },
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-              child: const Text('GPU maximum frequency'),
             )
           ],
         ),
