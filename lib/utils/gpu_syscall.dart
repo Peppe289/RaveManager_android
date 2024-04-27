@@ -20,6 +20,7 @@ class FrequencyList {
 
     // load dynamic library for invoke syscall
     final lib = DynamicLibrary.open("librave.so");
+    // 10 is max GPU freq step possibile in kernel
     final sizePtr = calloc<Int32>(10);
     final gpuFreq = lib.lookupFunction<
         Int16 Function(Int32, Pointer<Int32>, Int16),
@@ -44,6 +45,7 @@ class FrequencyList {
   // need for default in init.
   int currfreqMax() {
     final lib = DynamicLibrary.open("librave.so");
+    // 10 is max GPU freq step possibile in kernel
     final sizePtr = calloc<Int32>(10);
     final gpuFreq = lib.lookupFunction<
         Int32 Function(Int32, Pointer<Int32>, Int16),
@@ -57,6 +59,7 @@ class FrequencyList {
   // need for default in init.
   int currfreqMin() {
     final lib = DynamicLibrary.open("librave.so");
+    // 10 is max GPU freq step possibile in kernel
     final sizePtr = calloc<Int32>(10);
     final gpuFreq = lib.lookupFunction<
         Int32 Function(Int32, Pointer<Int32>, Int16),
@@ -69,6 +72,7 @@ class FrequencyList {
 
   int updateFrequency(int frequency, int flag) {
     final lib = DynamicLibrary.open("librave.so");
+    // 10 is max GPU freq step possibile in kernel
     final sizePtr = calloc<Int32>(10);
     final gpuFreq = lib.lookupFunction<
         Int16 Function(Int32, Pointer<Int32>, Int16),
