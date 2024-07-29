@@ -20,10 +20,14 @@ class _BuildHomePage extends State<BuildHomePage> {
   @override
   void initState() {
     super.initState();
-    _selectedFrequencyMin = Frequency(FrequencyList().currfreqMin());
-    _selectedFrequencyMax = Frequency(FrequencyList().currfreqMax());
-    list = FrequencyList().availableFreq();
-    if (list.first.frequency == -1) {
+    try {
+      _selectedFrequencyMin = Frequency(FrequencyList().currfreqMin());
+      _selectedFrequencyMax = Frequency(FrequencyList().currfreqMax());
+      list = FrequencyList().availableFreq();
+      if (list.first.frequency == -1) {
+        isRave = false;
+      }
+    } catch (e) {
       isRave = false;
     }
   }
