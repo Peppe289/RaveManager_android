@@ -61,7 +61,7 @@ class _MyDrawerWidget extends State<MyDrawerWidget> {
         print(
             "local version: ${versionChecker.version} - online version: $onlineVersion");
       }
-      downloadLink = info["project"]["rave"]["download"].toString();
+      downloadLink = info["project"]["rave"]["application"].toString();
       setState(() => updateText = "Update");
     }
   }
