@@ -43,6 +43,10 @@ dependencies:
   ffi: ^2.1.0
   salomon_bottom_bar: ^3.3.2
   percent_indicator: ^4.2.3
+  http: ^1.2.2
+  json_annotation: ^4.9.0
+  package_info: ^2.0.2
+  package_info_plus: ^4.2.0
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +58,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  build_runner: ^2.4.11
+  json_serializable: ^6.8.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
