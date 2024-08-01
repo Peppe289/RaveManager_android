@@ -99,8 +99,17 @@ class _BuildHomePage extends State<BuildHomePage> {
                               DropdownButton<Frequency>(
                                 value: _selectedFrequencyMax,
                                 onChanged: (Frequency? newValue) {
+                                  /* Max frequency can not be less than min frequency. */
+                                  if (newValue!.frequency <
+                                      _selectedFrequencyMin.frequency) {
+                                    showToast(
+                                        context: context,
+                                        text:
+                                            "Invalid frequency. Change min freq!");
+                                    return;
+                                  }
                                   setState(() {
-                                    _selectedFrequencyMax = newValue!;
+                                    _selectedFrequencyMax = newValue;
                                   });
 
                                   int ret = FrequencyList().updateFrequency(
@@ -143,8 +152,18 @@ class _BuildHomePage extends State<BuildHomePage> {
                               DropdownButton<Frequency>(
                                 value: _selectedFrequencyMin,
                                 onChanged: (Frequency? newValue) {
+                                  /* Max frequency can not be less than min frequency. */
+                                  if (newValue!.frequency >
+                                      _selectedFrequencyMax.frequency) {
+                                    showToast(
+                                        context: context,
+                                        text:
+                                            "Invalid frequency. Change max freq!");
+                                    return;
+                                  }
+
                                   setState(() {
-                                    _selectedFrequencyMin = newValue!;
+                                    _selectedFrequencyMin = newValue;
                                   });
 
                                   int ret = FrequencyList().updateFrequency(
