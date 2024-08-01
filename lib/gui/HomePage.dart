@@ -55,95 +55,132 @@ class _BuildHomePage extends State<BuildHomePage> {
         appBar: AppBar(
           title: const Text('Rave Settings.'),
         ),
-        body: Padding(
+        body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const Text(
-                    'GPU maximum frequency:',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
+          child: Align(
+            alignment: Alignment.center,
+            child: Wrap(
+              children: [
+                /* box shadow and color. */
+                Container(
+                  margin: const EdgeInsets.only(
+                      left: 10.0, right: 10.0, top: 15.0, bottom: 15.0),
+                  width: 300,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color.fromARGB(255, 255, 255, 255)
+                            .withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        // shadow position.
+                        offset: const Offset(0, 0),
+                      ),
+                    ],
+                  ),
+                  /* box size and color. */
+                  child: SizedBox(
+                    width: 300,
+                    height: 150,
+                    child: ColoredBox(
+                      color: const Color.fromARGB(255, 29, 29, 29),
+                      child: Column(
+                        /* box items */
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              const Text(
+                                'GPU maximum frequency:',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
+                              ),
+                              DropdownButton<Frequency>(
+                                value: _selectedFrequencyMax,
+                                onChanged: (Frequency? newValue) {
+                                  setState(() {
+                                    _selectedFrequencyMax = newValue!;
+                                  });
+
+                                  int ret = FrequencyList().updateFrequency(
+                                      _selectedFrequencyMax.frequency, 1);
+                                  if (ret == 0) {
+                                    showToast(
+                                        context: context,
+                                        text:
+                                            "Done. Max GPU freq to: ${_selectedFrequencyMax.frequency} Mhz");
+                                  }
+                                },
+                                dropdownColor:
+                                    const Color.fromARGB(255, 18, 18, 18),
+                                items: list.map<DropdownMenuItem<Frequency>>(
+                                    (Frequency frequency) {
+                                  return DropdownMenuItem<Frequency>(
+                                    value: frequency,
+                                    child: Text(
+                                      "${frequency.frequency} Mhz",
+                                      style: const TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 15),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              const Text(
+                                'GPU minimum frequency:',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
+                              ),
+                              DropdownButton<Frequency>(
+                                value: _selectedFrequencyMin,
+                                onChanged: (Frequency? newValue) {
+                                  setState(() {
+                                    _selectedFrequencyMin = newValue!;
+                                  });
+
+                                  int ret = FrequencyList().updateFrequency(
+                                      _selectedFrequencyMin.frequency, -1);
+                                  if (ret == 0) {
+                                    showToast(
+                                        context: context,
+                                        text:
+                                            "Done. Min GPU freq to: ${_selectedFrequencyMin.frequency} Mhz");
+                                  }
+                                },
+                                dropdownColor:
+                                    const Color.fromARGB(255, 18, 18, 18),
+                                items: list.map<DropdownMenuItem<Frequency>>(
+                                    (Frequency frequency) {
+                                  return DropdownMenuItem<Frequency>(
+                                    value: frequency,
+                                    child: Text(
+                                      "${frequency.frequency} Mhz",
+                                      style: const TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  DropdownButton<Frequency>(
-                    value: _selectedFrequencyMax,
-                    onChanged: (Frequency? newValue) {
-                      setState(() {
-                        _selectedFrequencyMax = newValue!;
-                      });
-
-                      int ret = FrequencyList()
-                          .updateFrequency(_selectedFrequencyMax.frequency, 1);
-                      if (ret == 0) {
-                        showToast(
-                            context: context,
-                            text:
-                                "Done. Max GPU freq to: ${_selectedFrequencyMax.frequency} Mhz");
-                      }
-                    },
-                    dropdownColor: const Color.fromARGB(255, 18, 18, 18),
-                    items: list.map<DropdownMenuItem<Frequency>>(
-                        (Frequency frequency) {
-                      return DropdownMenuItem<Frequency>(
-                        value: frequency,
-                        child: Text(
-                          "${frequency.frequency} Mhz",
-                          style: const TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const Text(
-                    'GPU minimum frequency:',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                  DropdownButton<Frequency>(
-                    value: _selectedFrequencyMin,
-                    onChanged: (Frequency? newValue) {
-                      setState(() {
-                        _selectedFrequencyMin = newValue!;
-                      });
-
-                      int ret = FrequencyList()
-                          .updateFrequency(_selectedFrequencyMin.frequency, -1);
-                      if (ret == 0) {
-                        showToast(
-                            context: context,
-                            text:
-                                "Done. Min GPU freq to: ${_selectedFrequencyMin.frequency} Mhz");
-                      }
-                    },
-                    dropdownColor: const Color.fromARGB(255, 18, 18, 18),
-                    items: list.map<DropdownMenuItem<Frequency>>(
-                        (Frequency frequency) {
-                      return DropdownMenuItem<Frequency>(
-                        value: frequency,
-                        child: Text(
-                          "${frequency.frequency} Mhz",
-                          style: const TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
