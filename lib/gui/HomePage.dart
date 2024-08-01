@@ -122,7 +122,7 @@ class _BuildHomePage extends State<BuildHomePage> {
                                   }
                                 },
                                 dropdownColor:
-                                    const Color.fromARGB(255, 18, 18, 18),
+                                    const Color.fromARGB(255, 85, 85, 85),
                                 items: list.map<DropdownMenuItem<Frequency>>(
                                     (Frequency frequency) {
                                   return DropdownMenuItem<Frequency>(
@@ -176,7 +176,7 @@ class _BuildHomePage extends State<BuildHomePage> {
                                   }
                                 },
                                 dropdownColor:
-                                    const Color.fromARGB(255, 18, 18, 18),
+                                    const Color.fromARGB(255, 85, 85, 85),
                                 items: list.map<DropdownMenuItem<Frequency>>(
                                     (Frequency frequency) {
                                   return DropdownMenuItem<Frequency>(
