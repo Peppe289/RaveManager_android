@@ -108,17 +108,22 @@ class _BuildHomePage extends State<BuildHomePage> {
                                             "Invalid frequency. Change min freq!");
                                     return;
                                   }
-                                  setState(() {
-                                    _selectedFrequencyMax = newValue;
-                                  });
 
-                                  int ret = FrequencyList().updateFrequency(
-                                      _selectedFrequencyMax.frequency, 1);
+                                  int ret = FrequencyList()
+                                      .updateFrequency(newValue.frequency, 1);
                                   if (ret == 0) {
                                     showToast(
                                         context: context,
                                         text:
-                                            "Done. Max GPU freq to: ${_selectedFrequencyMax.frequency} Mhz");
+                                            "Done. Max GPU freq to: ${newValue.frequency} Mhz");
+                                    setState(() {
+                                      _selectedFrequencyMax = newValue;
+                                    });
+                                  } else {
+                                    showToast(
+                                        context: context,
+                                        text:
+                                            "Error to set ${newValue.frequency} Mhz");
                                   }
                                 },
                                 dropdownColor:
@@ -162,17 +167,21 @@ class _BuildHomePage extends State<BuildHomePage> {
                                     return;
                                   }
 
-                                  setState(() {
-                                    _selectedFrequencyMin = newValue;
-                                  });
-
-                                  int ret = FrequencyList().updateFrequency(
-                                      _selectedFrequencyMin.frequency, -1);
+                                  int ret = FrequencyList()
+                                      .updateFrequency(newValue.frequency, -1);
                                   if (ret == 0) {
                                     showToast(
                                         context: context,
                                         text:
-                                            "Done. Min GPU freq to: ${_selectedFrequencyMin.frequency} Mhz");
+                                            "Done. Min GPU freq to: ${newValue.frequency} Mhz");
+                                    setState(() {
+                                      _selectedFrequencyMin = newValue;
+                                    });
+                                  } else {
+                                    showToast(
+                                        context: context,
+                                        text:
+                                            "Error to set ${newValue.frequency} Mhz");
                                   }
                                 },
                                 dropdownColor:
