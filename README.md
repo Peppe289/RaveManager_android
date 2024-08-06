@@ -1,16 +1,14 @@
-# tweaker
+# Tweaker
 
-A new Flutter project.
+Flutter project for managing the kernel without root. This application can be used with the Rave patch included in the kernel.
+The custom patch implements a new custom syscall used with this application via a dynamic C library (to directly call kernel code).
+The project is currently tested on the Xiaomi Pad 5 (nabu) using my kernel (Rave).
+Therefore, this project is only compiled for Android arm64.
 
-## Getting Started
+## Disclaimer
 
-This project is a starting point for a Flutter application.
+This project is currently a work in progress. Feel free to submit pull requests or report issues.
 
-A few resources to get you started if this is your first Flutter project:
+## How to build
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Just refer to the Flutter documentation. Have fun.
