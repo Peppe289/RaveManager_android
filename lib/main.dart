@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'gui/SideDrawer.dart';
-import 'gui/AdvancedPage.dart';
+import 'gui/hwInfoPage.dart';
 import 'gui/HomePage.dart';
+import 'gui/sInfoPage.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 void main() {
@@ -40,7 +41,8 @@ class _MyHomePageState extends State<MyHomePage> {
     _currentPage = 0;
     _pages = [
       const BuildHomePage(),
-      const BuildSecondPage(),
+      const BuildHWInfoPage(),
+      const BuildSoftwareInfoPage(),
     ];
   }
 
@@ -80,9 +82,14 @@ class _MyHomePageState extends State<MyHomePage> {
             selectedColor: Colors.orange,
           ),
           SalomonBottomBarItem(
-            icon: const Icon(Icons.admin_panel_settings),
-            title: const Text('Advanced'),
-            selectedColor: Colors.orange,
+            icon: const Icon(Icons.dataset_sharp),
+            title: const Text('Architecture'),
+            selectedColor: Colors.blue,
+          ),
+          SalomonBottomBarItem(
+            icon: const Icon(Icons.device_unknown),
+            title: const Text('Software'),
+            selectedColor: Colors.green,
           ),
         ],
       ),
