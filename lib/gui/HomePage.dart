@@ -25,10 +25,14 @@ class _BuildHomePage extends State<BuildHomePage> {
       _selectedFrequencyMax = Frequency(FrequencyList().currfreqMax());
       list = FrequencyList().availableFreq();
       if (list.first.frequency == -1) {
-        isRave = false;
+        setState(() {
+          isRave = false;
+        });
       }
     } catch (e) {
-      isRave = false;
+      setState(() {
+        isRave = false;
+      });
     }
   }
 
