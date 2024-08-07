@@ -49,13 +49,24 @@ class _BuildHWInfoPage extends State<BuildHWInfoPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(
-            leftText,
-            style: const TextStyle(color: Colors.white),
+          Expanded(
+            child: Text(
+              leftText,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
-          Text(
-            rightParam,
-            style: const TextStyle(color: Colors.white),
+          Expanded(
+            child: Text(
+              rightParam,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              textAlign: TextAlign.right, // Align text to the right
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),
